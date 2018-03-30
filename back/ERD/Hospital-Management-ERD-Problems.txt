@@ -1,0 +1,28 @@
+From attachment 1-
+	Can a patient choose multiple profession? (bcz in attachment 2 profession part is highlighted by Sir)
+	Where to save the deposited amount?
+	Do we create an attribute in patient entity to save the choice of "ward/cabin"?
+
+From attachment 3-
+	Do we need to create a schema for diease-symptom?
+	Do we need an entity containing patient's personal information?
+	A schema for patiet's food habit?
+	A schema for hobby?
+
+From attachment 4-
+	Where to save date of advice and time?
+	We should save whole "Medicine advice" table in prescription, right?
+	Advised tests are also saved in the prescription.
+
+From attachment 5-
+	Schema for educational qualification and experience?
+	Seperate schema for membership?
+From attachment 6-
+	Schema for educational qualification and experience?
+From  attachment 7-
+	Do we need to create schema for registar/supervisor or will it be just attribute for doctor/nurse?
+
+From  attachment 8-
+	Where to save supplier id/name?
+	and also where to save date of supply?
+	
