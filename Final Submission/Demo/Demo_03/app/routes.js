@@ -68,8 +68,6 @@ module.exports = function(app, passport) {
 		
 	});
 
-	
-
 	// =====================================
 	// LOGOUT ==============================
 	// =====================================
@@ -77,6 +75,17 @@ module.exports = function(app, passport) {
 		req.logout();
 		res.redirect('/');
 	});
+
+	app.get("/:x",function(req,res){
+		console.log("Someone has made a get req at "+String(req.params.x));
+		res.render(req.params.x);
+	});
+
+	app.get("*",function(req,res){
+		console.log("Someone has made a get req at 404");
+		res.render("404");
+	});
+
 };
 
 // route middleware to make sure
@@ -89,3 +98,6 @@ function isLoggedIn(req, res, next) {
 	// if they aren't redirect them to the home page
 	res.redirect('/');
 }
+
+
+
