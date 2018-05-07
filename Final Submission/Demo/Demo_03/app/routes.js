@@ -81,6 +81,10 @@ module.exports = function(app, passport) {
 		res.render(req.params.x);
 	});
 
+	app.use(function(err, req, res, next) {
+  		res.render("404");
+	});
+
 	app.get("*",function(req,res){
 		console.log("Someone has made a get req at 404");
 		res.render("404");
