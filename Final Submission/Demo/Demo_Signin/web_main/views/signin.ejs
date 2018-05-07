@@ -21,10 +21,11 @@
         <h1 class="ui huge header">
           Please sign in 
         </h1>
-        <form class="ui large form">
+        <!-- action="/signin" method="POST" -->
+        <form class="ui large form" action="/" method="POST">
           <div class="field">
             <div class="ui left icon input">
-              <i class="user icon"></i><input name="name" placeholder="Username" type="text" />
+              <i class="user icon"></i><input name="username" placeholder="Username" type="text" />
             </div>
           </div>
           <div class="field">
@@ -45,7 +46,7 @@
             </div>
           </div>
           <div>
-            <a class="ui fluid large primary submit button" href="#">Sign in</a>
+            <button class="ui fluid large primary submit button">Sign in</button>
           </div>
         </form>
 
