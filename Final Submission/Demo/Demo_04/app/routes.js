@@ -52,6 +52,17 @@ module.exports = function(app, passport) {
     	res.render("StaffIndex");
   	});
 
+  	app.post('/create_nurse', function(req, res) {
+
+  		var age = parseInt(req.body.age);
+  		var supervisor_id = parseInt(req.body.supervisor_id);
+
+    	var nurse = {nurse_name: req.body.name, gender: req.body.gender, age: age, contact_no: req.body.contact_no, address: req.body.address,
+    		supervisor_id: supervisor_id, assigned_ward: req.body.ward};
+    	con.query("INSERT INTO nurse SET ?", nurse);
+    	res.render("StaffIndex");
+  	});
+
   	app.post('/delete_user', function(req, res) {
   		var username = req.body.username;
     	con.query("DELETE FROM user WHERE username = ?",username);

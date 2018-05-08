@@ -16,6 +16,17 @@ CREATE TABLE pre_user(
     user_type VARCHAR(20) NOT NULL
 );
 
+create table nurse(
+    nurse_name varchar(20) not null,
+    gender varchar(10) not null,
+    age int(4) not null,
+    contact_no varchar(20),
+    address varchar(100),
+    supervisor_id int(6) not null,
+    assigned_ward varchar(20) not null
+    
+);
+
 DELIMITER $$
 CREATE TRIGGER user_type_check 
     AFTER INSERT ON pre_user
