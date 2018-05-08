@@ -59,12 +59,14 @@ DELIMITER ;
 show triggers;
 drop trigger user_type_check;
 
+
 ##Ward Entity //this table needs to be modified later on
 create table ward(
     id int(6) unsigned not null auto_increment primary key,
 );
 
 insert into ward values(001);
+
 
 ##Doctor Entity
 //same ward can't be assigned to more than one doctor(needs to implement this)

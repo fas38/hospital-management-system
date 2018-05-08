@@ -117,213 +117,72 @@ module.exports = function(app, passport) {
 	app.post('/newDoctor', function(req, res){
 
 		var user = {username: req.body.username,password: req.body.password, user_type: "Doctor"};
-
-		  connection.connect(function(err) {
-		    if (err) 
-		      throw err;
-		    else{
-		      connection.query("INSERT INTO pre_user SET ?", user, function (err,res) {
-		      if (err) throw err;
-		      });
-		    }             
-		    
-		});
-
 		var did;
 
-		connection.query("SELECT * FROM user WHERE username = ? ",[req.body.username], function(err, row){
-		        if (err) 
-		      throw err;
-		    else{
-		      did = row[0].id;
-		    }
-	    });
-
-	    var ddoctor = {did, fname: req.body.fname, mname: req.body.mname, lname: req.body.lname, 
-	      bdate: req.body.bdate, adate: req.body.adate, gender: req.body.gender, rid: req.body.registar, 
-	      assigned_ward: req.body.ward};
-
-	    connection.connect(function(err) {
-		    if (err) 
-		      throw err;
-		    else{
-		      connection.query("INSERT INTO doctor SET ?", ddoctor, function (err,res) {
-		      if (err) throw err;
-		      });
-		    }             
-		    
-		}); 
-
-		var e_qualification1 = {did, degree: req.body.degree1, board: req.body.board1, year: req.body.year1, 
-		  cgpa: req.body.cgpa1, position: req.body.position1};
 		connection.connect(function(err) {
-		    if (err) 
-		      throw err;
+		    if (err) throw err;
 		    else{
-		      if(!(e_qualification1.degree1 === null || e_qualification1.degree1 == '')){
-		        connection.query("INSERT INTO education_qualification SET ?", e_qualification1, 
-		          function (err,res) {
-		        if (err) throw err;
-		        });
+	      		connection.query("INSERT INTO pre_user SET ?", user, function (err,res) {
+		      		if (err) throw err;
+		      		connection.query("SELECT * FROM user WHERE username = ? ",user.username, function(err, row){
+		      			if(err) throw err;
+		      			did = row[0].id;
+			      		var ddoctor = {did, fname: req.body.fname, mname: req.body.mname, lname: req.body.lname, 
+			      			bdate: req.body.bdate, adate: req.body.adate, gender: req.body.gender, rid: req.body.registar, 
+			      			assigned_ward: req.body.ward};
+		      			connection.query("INSERT INTO doctor SET ?", ddoctor, function (err,res){
+		      				if (err) throw err;
+		      			});
 
-		      }
-		    }             
+		      			var e_qualification1 = {did, degree: req.body.degree1, board: req.body.board1, year: req.body.year1, 
+		      				cgpa: req.body.cgpa1, position: req.body.position1};	
+		      			if(true){
+		      				connection.query("INSERT INTO education_qualification SET ?", e_qualification1);	
+		      			};
+
+		      			var e_qualification2 = {did, degree: req.body.degree2, board: req.body.board2, year: req.body.year2, 
+		      				cgpa: req.body.cgpa2, position: req.body.position2};
+		      			if(true){
+		      				connection.query("INSERT INTO education_qualification SET ?", e_qualification2);	
+		      			};
+
+		      			var e_qualification3 = {did, degree: req.body.degree3, board: req.body.board3, year: req.body.year3, 
+		      				cgpa: req.body.cgpa3, position: req.body.position3};
+		      			if(true){
+		      				connection.query("INSERT INTO education_qualification SET ?", e_qualification3, 
+		      				function (err,res){
+		      					if(err) throw err;
+		      				});	
+		      			};
+
+		      			var e_qualification4 = {did, degree: req.body.degree4, board: req.body.board4, year: req.body.year4, 
+		      				cgpa: req.body.cgpa4, position: req.body.position4};
+		      			if(true){
+		      				connection.query("INSERT INTO education_qualification SET ?", e_qualification4, 
+		      				function (err,res){
+		      					if(err) throw err;
+		      				});	
+		      			};
+
+		      			var e_qualification5 = {did, degree: req.body.degree5, board: req.body.board5, year: req.body.year5, 
+		      				cgpa: req.body.cgpa5, position: req.body.position5};
+		      			if(true){
+		      				connection.query("INSERT INTO education_qualification SET ?", e_qualification5, 
+		      				function (err,res){
+		      					if(err) throw err;
+
+		      					
+		      				});	
+		      			};
+
+						
+		      		
+	      			});	
+	      		});
+	      	};             
 		    
-		}); 
-
-		var e_qualification2 = {did, degree: req.body.degree2, board: req.body.board2, year: req.body.year2, 
-		  cgpa: req.body.cgpa2, position: req.body.position2};
-		connection.connect(function(err) {
-		    if (err) 
-		      throw err;
-		    else{
-		      if(!(e_qualification2.degree2 === null || e_qualification2.degree2 == '')){
-		        connection.query("INSERT INTO education_qualification SET ?", e_qualification2, 
-		          function (err,res) {
-		        if (err) throw err;
-		        });
-
-		      }
-		    }             
-		    
-		}); 
-		  
-		var e_qualification3 = {did, degree: req.body.degree3, board: req.body.board3, year: req.body.year3, 
-		  cgpa: req.body.cgpa3, position: req.body.position3};
-		connection.connect(function(err) {
-		    if (err) 
-		      throw err;
-		    else{
-		      if(!(e_qualification3.degree3 === null || e_qualification3.degree3 == '')){
-		        connection.query("INSERT INTO education_qualification SET ?", e_qualification3, 
-		          function (err,res) {
-		        if (err) throw err;
-		        });
-
-		      }
-		    }             
-		    
-		}); 
-		  
-		var e_qualification4 = {did, degree: req.body.degree4, board: req.body.board4, year: req.body.year4, 
-		  cgpa: req.body.cgpa4, position: req.body.position4};
-		connection.connect(function(err) {
-		    if (err) 
-		      throw err;
-		    else{
-		      if(!(e_qualification4.degree4 === null || e_qualification4.degree4 == '')){
-		        connection.query("INSERT INTO education_qualification SET ?", e_qualification4, 
-		          function (err,res) {
-		        if (err) throw err;
-		        });
-
-		      }
-		    }             
-		    
-		}); 
-		  
-		var e_qualification5 = {did, degree: req.body.degree5, board: req.body.board5, year: req.body.year5, 
-		  cgpa: req.body.cgpa5, position: req.body.position5};
-		connection.connect(function(err) {
-		    if (err) 
-		      throw err;
-		    else{
-		      if(!(e_qualification5.degree5 === null || e_qualification5.degree5 == '')){
-		        connection.query("INSERT INTO education_qualification SET ?", e_qualification5, 
-		          function (err,res) {
-		        if (err) throw err;
-		        });
-
-		      }
-		    }             
-		    
-		}); 
-
-
-		var experience1 = {did, title: req.body.title1, dfrom: req.body.from1, dto: req.body.to1, 
-		  organization: req.body.organization1};
-		connection.connect(function(err) {
-		    if (err) 
-		      throw err;
-		    else{
-		      if(!(experience1.title1 === null || experience1.title1 == '')){
-		        connection.query("INSERT INTO experience SET ?", experience1, 
-		          function (err,res) {
-		        if (err) throw err;
-		        });
-
-		      }
-		    }             
-		    
-		}); 
-
-		var experience2 = {did, title: req.body.title2, dfrom: req.body.from2, dto: req.body.to2, 
-		  organization: req.body.organization2};
-		connection.connect(function(err) {
-		    if (err) 
-		      throw err;
-		    else{
-		      if(!(experience2.title2 === null || experience2.title2 == '')){
-		        connection.query("INSERT INTO experience SET ?", experience2, 
-		          function (err,res) {
-		        if (err) throw err;
-		        });
-
-		      }
-		    }             
-		    
-		}); 
-
-		var experience3 = {did, title: req.body.title3, dfrom: req.body.from3, dto: req.body.to3, 
-		  organization: req.body.organization3};
-		connection.connect(function(err) {
-		    if (err) 
-		      throw err;
-		    else{
-		      if(!(experience3.title3 === null || experience3.title3 == '')){
-		        connection.query("INSERT INTO experience SET ?", experience3, 
-		          function (err,res) {
-		        if (err) throw err;
-		        });
-
-		      }
-		    }             
-		    
-		}); 
-
-		var experience4 = {did, title: req.body.title4, dfrom: req.body.from4, dto: req.body.to4, 
-		  organization: req.body.organization4};
-		connection.connect(function(err) {
-		    if (err) 
-		      throw err;
-		    else{
-		      if(!(experience4.title4 === null || experience4.title4 == '')){
-		        connection.query("INSERT INTO experience SET ?", experience4, 
-		          function (err,res) {
-		        if (err) throw err;
-		        });
-
-		      }
-		    }             
-		    
-		}); 
-
-		var experience5 = {did, title: req.body.title5, dfrom: req.body.from5, dto: req.body.to5, 
-		  organization: req.body.organization5};  
-		connection.connect(function(err) {
-		    if (err) 
-		      throw err;
-		    else{
-		      if(!(experience5.title5 === null || experience5.title5 == '')){
-		        connection.query("INSERT INTO experience SET ?", experience5, 
-		          function (err,res) {
-		        if (err) throw err;
-		        });
-
-		      }
-		    }             
-		    
-		});                       
+		});
+                       
 
 		res.redirect('/profile');
 	});
