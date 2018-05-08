@@ -1,0 +1,137 @@
+###USER and PRE_USER table to keep record of user
+
+CREATE TABLE user(
+    id INT(6) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(20) NOT NULL,
+    password CHAR(60) NOT NULL,
+    user_type VARCHAR(20) NOT NULL
+);
+
+###sets the default id value to 10001
+ALTER TABLE user AUTO_INCREMENT=10001; 
+
+CREATE TABLE pre_user(
+    id INT(6) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(20) NOT NULL,
+    password CHAR(60) NOT NULL,
+    user_type VARCHAR(20) NOT NULL
+);
+
+###sets the default id value to 10001
+ALTER TABLE pre_user AUTO_INCREMENT=10001;
+
+select * from user;
+drop table user;
+drop table pre_user;
+
+###Sample inputs
+
+INSERT INTO pre_user (username, password, user_type) VALUES('fahim', 'qwe1asd2', 'Staff');
+INSERT INTO pre_user (username, password, user_type) VALUES('shakil', 'asd2zxc3', 'Nurse');
+INSERT INTO pre_user (username, password, user_type) VALUES('ahmed', 'zxc3qwe1', 'Doctor');
+INSERT INTO pre_user (username, password, user_type) VALUES('jhon', 'qwe1asd2', 'Patient');
+INSERT INTO pre_user (username, password, user_type) VALUES('rakib', '123456', 'Staff');
+INSERT INTO pre_user (username, password, user_type) VALUES('mahi', '123456', 'Doctor');
+
+
+### Trigger to check if the new inserted user type is - Staff,Doctor or Nurse (both capital and small letters are acceptable)
+
+DELIMITER $$
+CREATE TRIGGER user_type_check 
+    AFTER INSERT ON pre_user
+    FOR EACH ROW 
+BEGIN
+	IF (NEW.user_type='Staff' OR NEW.user_type='Nurse' OR NEW.user_type='Doctor' OR NEW.user_type='Patient') THEN
+    INSERT INTO user
+   ( username,
+     password,
+     user_type)
+   VALUES
+   ( NEW.username,
+     NEW.password,
+     NEW.user_type );
+     END IF;
+     
+END; $$
+DELIMITER ;
+
+
+show triggers;
+drop trigger user_type_check;
+
+##Ward Entity //this table needs to be modified later on
+create table ward(
+    id int(6) unsigned not null auto_increment primary key,
+);
+
+insert into ward values(001);
+
+##Doctor Entity
+//same ward can't be assigned to more than one doctor(needs to implement this)
+
+CREATE TABLE doctor(
+    did INT(6) UNSIGNED NOT NULL PRIMARY KEY,
+    fname VARCHAR(20) NOT NULL,
+    mname VARCHAR(20),
+    lname VARCHAR(20) NOT NULL,
+    bdate DATE NOT NULL,
+    adate DATE NOT NULL,
+    gender VARCHAR(20) NOT NULL,
+    rid INT(6) UNSIGNED NOT NULL,
+    assigned_ward INT(6) UNSIGNED NOT NULL,
+    FOREIGN KEY(did) REFERENCES user(id) 
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    FOREIGN KEY(rid) REFERENCES doctor(did) 
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    FOREIGN KEY(assigned_ward) REFERENCES ward(id) 
+        ON UPDATE CASCADE
+        ON DELETE CASCADE    
+);
+
+CREATE TABLE education_qualification(
+    did INT(6) UNSIGNED NOT NULL,
+    degree VARCHAR(20) NOT NULL,
+    board VARCHAR(20) NOT NULL,
+    year VARCHAR(20) NOT NULL,
+    cgpa VARCHAR(20) NOT NULL,
+    position VARCHAR(20) NOT NULL,
+    FOREIGN KEY(did) REFERENCES doctor(did) 
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+);
+
+CREATE TABLE experience(
+    did INT(6) UNSIGNED NOT NULL,
+    title VARCHAR(20) NOT NULL,
+    dfrom DATE NOT NULL,
+    dto DATE NOT NULL,
+    organization VARCHAR(20) NOT NULL,
+    FOREIGN KEY(did) REFERENCES doctor(did) 
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+);
+
+INSERT INTO pre_user (username, password, user_type) VALUES('mahi', '123456', 'Doctor');
+insert into doctor values(10007,'Fahim','Ahmed','Shakil', STR_TO_DATE('07-03-1972', '%d-%m-%Y'), 
+STR_TO_DATE('1-01-2012', '%d-%m-%Y'), 'Male', 10007, 001);
+insert into doctor values(10010,'Mahi','','Muddashir', STR_TO_DATE('07-03-1972', '%d-%m-%Y'), 
+STR_TO_DATE('1-01-2012', '%d-%m-%Y'), 'Male', 10007, 001);
+insert into education_qualification values(10007, 'SSC', 'Dhaka', '2000', '1st', '4th');
+insert into education_qualification values(10007, 'HSC', 'Dhaka', '2002', '5.00', '1st');
+insert into education_qualification values(10007, 'MBBS', 'Dhaka', '2008', '3.65', '2nd');
+insert into education_qualification values(10010, 'SSC', 'Dhaka', '2000', '1st', '4th');
+insert into education_qualification values(10010, 'HSC', 'Dhaka', '2002', '5.00', '1st');
+insert into education_qualification values(10010, 'MBBS', 'Dhaka', '2008', '3.65', '2nd');
+
+insert into experience values(10007, 'Senior Doctor', STR_TO_DATE('07-03-2012', '%d-%m-%Y'), 
+STR_TO_DATE('07-03-2018', '%d-%m-%Y'), 'DMC');
+insert into experience values(10010, 'Junior Doctor', STR_TO_DATE('07-03-2008', '%d-%m-%Y'), 
+STR_TO_DATE('07-03-2010', '%d-%m-%Y'), 'DMC');
+insert into experience values(10010, 'Senior Doctor', STR_TO_DATE('07-03-2011', '%d-%m-%Y'), 
+STR_TO_DATE('07-03-2012', '%d-%m-%Y'), 'DMC');
+insert into experience values(10010, 'Supreme Doctor', STR_TO_DATE('07-03-2013', '%d-%m-%Y'), 
+STR_TO_DATE('07-03-2018', '%d-%m-%Y'), 'DMC');
+
+
