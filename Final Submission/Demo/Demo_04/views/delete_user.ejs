@@ -19,28 +19,13 @@
 
 <body>
   <div class="ui container">
-    <form class="ui large form" action="/create_user" method="POST">
-      <h1>Fill up the form to add new user to the system</h1>
+    <form class="ui large form" action="/delete_user" method="POST">
+      <h1>Enter the user name to delete user</h1>
       <div class="field">
           <label>Username</label>
           <input placeholder="username" name="username" type="text" style="width: 200px">
       </div>
-      
-      <div class="field">
-          <label>Password</label>
-          <input placeholder="password" name="password" type="text" style="width: 200px">
-      </div>
-
-      <div class="field">
-            <label>Select your user type</label>
-            <select name="role" type="text" style="width: 200px">
-              <option value="Staff">Staff</option>
-              <option value="Doctor">Doctor</option>
-              <option value="Nurse">Nurse</option>
-            </select>
-      </div>
-
-      <botton class="ui primary submit button">Add User</button>
+      <botton class="ui primary submit button">Delete User</button>
 
     </form>
   </div>

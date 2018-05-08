@@ -1,0 +1,51 @@
+CREATE DATABASE `sample01` /*!40100 DEFAULT CHARACTER SET latin1 */;
+CREATE TABLE user(
+    id INT(6) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(20) NOT NULL,
+    password CHAR(60) NOT NULL,
+    user_type VARCHAR(20) NOT NULL
+);
+
+ALTER TABLE user modify column username varchar(20) not null unique; 
+ALTER TABLE pre_user modify column username varchar(20) not null unique;
+
+CREATE TABLE pre_user(
+    id INT(6) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(20) NOT NULL,
+    password CHAR(60) NOT NULL,
+    user_type VARCHAR(20) NOT NULL
+);
+
+DELIMITER $$
+CREATE TRIGGER user_type_check 
+    AFTER INSERT ON pre_user
+    FOR EACH ROW 
+BEGIN
+	IF (NEW.user_type='Staff' OR NEW.user_type='Nurse' OR NEW.user_type='Doctor' OR NEW.user_type='Patient') THEN
+    INSERT INTO user
+   ( username,
+     password,
+     user_type)
+   VALUES
+   ( NEW.username,
+     NEW.password,
+     NEW.user_type );
+     END IF;
+     
+END; $$
+DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER delete_on_pre_user 
+    AFTER DELETE ON user
+    FOR EACH ROW 
+BEGIN
+	DELETE from pre_user 
+    WHERE pre_user.username = old.username;
+END; $$
+DELIMITER ;
+
+INSERT INTO pre_user (username, password, user_type) VALUES('fahim', 'qwe1asd2', 'Staff');
+INSERT INTO pre_user (username, password, user_type) VALUES('shakil', 'asd2zxc3', 'Nurse');
+INSERT INTO pre_user (username, password, user_type) VALUES('ahmed', 'zxc3qwe1', 'Doctor');
+INSERT INTO pre_user (username, password, user_type) VALUES('jhon', 'qwe1asd2', 'Patient');
