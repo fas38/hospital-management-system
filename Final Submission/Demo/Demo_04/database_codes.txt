@@ -1,0 +1,58 @@
+###USER and PRE_USER table to keep record of user
+
+CREATE TABLE user(
+    id INT(6) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(20) NOT NULL,
+    password CHAR(60) NOT NULL,
+    user_type VARCHAR(20) NOT NULL
+);
+
+###sets the default id value to 10001
+ALTER TABLE user AUTO_INCREMENT=10001; 
+
+CREATE TABLE pre_user(
+    id INT(6) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(20) NOT NULL,
+    password CHAR(60) NOT NULL,
+    user_type VARCHAR(20) NOT NULL
+);
+
+###sets the default id value to 10001
+ALTER TABLE pre_user AUTO_INCREMENT=10001;
+
+select * from user;
+drop table user;
+drop table pre_user;
+
+###Sample inputs
+
+INSERT INTO pre_user (username, password, user_type) VALUES('fahim', 'qwe1asd2', 'Staff');
+INSERT INTO pre_user (username, password, user_type) VALUES('shakil', 'asd2zxc3', 'Nurse');
+INSERT INTO pre_user (username, password, user_type) VALUES('ahmed', 'zxc3qwe1', 'Doctor');
+INSERT INTO pre_user (username, password, user_type) VALUES('jhon', 'qwe1asd2', 'Patient');
+
+
+### Trigger to check if the new inserted user type is - Staff,Doctor or Nurse (both capital and small letters are acceptable)
+
+DELIMITER $$
+CREATE TRIGGER user_type_check 
+    AFTER INSERT ON pre_user
+    FOR EACH ROW 
+BEGIN
+	IF (NEW.user_type='Staff' OR NEW.user_type='Nurse' OR NEW.user_type='Doctor' OR NEW.user_type='Patient') THEN
+    INSERT INTO user
+   ( username,
+     password,
+     user_type)
+   VALUES
+   ( NEW.username,
+     NEW.password,
+     NEW.user_type );
+     END IF;
+     
+END; $$
+DELIMITER ;
+
+
+show triggers;
+drop trigger user_type_check;
