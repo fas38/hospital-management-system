@@ -23,7 +23,7 @@
 
   <div class="ui container">
 
-    <form class="ui form segment">
+    <form class="ui form segment" action="/create_nurse" method="POST">
     
       <h1>Fill the following form to add new "Nurse" to the system</h1>
 
@@ -37,7 +37,6 @@
         <div class="field">
           <label>Gender</label>
           <select class="ui dropdown" name="gender">
-            <option value="">Gender</option>
             <option value="male">Male</option>
             <option value="female">Female</option>
           </select>
@@ -49,12 +48,12 @@
 
         <div class="field">
           <label>Age</label>
-          <input placeholder="Age" name="age" type="text">
+          <input placeholder="Age" name="age" type="number">
         </div>
 
         <div class="field">
           <label>Contact No.</label>
-          <input placeholder="Contact Number" name="contact" type="text">
+          <input placeholder="Contact Number" name="contact_no" type="text">
         </div>
 
         <div class="field">
@@ -68,7 +67,7 @@
 
         <div class="field">
           <label>Supervisor ID</label>
-          <input placeholder="Supervisor ID" name="supervisor" type="text">
+          <input placeholder="Supervisor ID" name="supervisor_id" type="number">
         </div>
 
         <div class="field">
@@ -108,7 +107,7 @@
           <label>I agree to the terms and conditions</label>
         </div>
       </div> -->
-      <div class="ui primary submit button">Submit</div>
+      <button class="ui primary submit button">Submit</button>
       <div class="ui error message"></div>
     </form>
 

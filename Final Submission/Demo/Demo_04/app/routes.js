@@ -24,7 +24,7 @@ module.exports = function(app, passport) {
 	app.get('/login', function(req, res) {
 
 		// render the page and pass in any flash data if it exists
-		res.render('signin.ejs', { message: req.flash('loginMessage') });
+		res.render('signin', { message: req.flash('loginMessage') });
 	});
 
 	// process the login form
@@ -45,19 +45,29 @@ module.exports = function(app, passport) {
         res.redirect('/');
     });
 
-    app.post('/system_entry_form_user', function(req, res) {
+    app.post('/create_user', function(req, res) {
 
     	var user = {username: req.body.username,password: req.body.password, user_type: req.body.role};
+    	con.query("INSERT INTO pre_user SET ?", user);
+    	res.render("StaffIndex");
+  	});
 
-    	con.connect(function(err) {
-  			if (err) throw err;
-  			con.query("INSERT INTO pre_user SET ?", user, function (err,res) {
-    		if (err) throw err;
-  			});
-		});
-		
-		res.render("StaffIndex");
-	});
+  	app.post('/create_nurse', function(req, res) {
+
+  		var age = parseInt(req.body.age);
+  		var supervisor_id = parseInt(req.body.supervisor_id);
+
+    	var nurse = {nurse_name: req.body.name, gender: req.body.gender, age: age, contact_no: req.body.contact_no, address: req.body.address,
+    		supervisor_id: supervisor_id, assigned_ward: req.body.ward};
+    	con.query("INSERT INTO nurse SET ?", nurse);
+    	res.render("StaffIndex");
+  	});
+
+  	app.post('/delete_user', function(req, res) {
+  		var username = req.body.username;
+    	con.query("DELETE FROM user WHERE username = ?",username);
+    	res.render("StaffIndex");
+  	});
 
 
 	// =====================================
