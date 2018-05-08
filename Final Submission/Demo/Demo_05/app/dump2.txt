@@ -112,7 +112,7 @@ module.exports = function(app, passport) {
 		res.render('system_entry_form_Ward.ejs');
 	})
 
-	// POST REQUEST  for Doctor Entry================
+	/*// POST REQUEST  for Doctor Entry================
 
 	app.post('/newDoctor', function(req, res){
 
@@ -185,9 +185,9 @@ module.exports = function(app, passport) {
                        
 
 		res.redirect('/profile');
-	});
+	});*/
 
-	// POST REQUEST  for Nurse Entry================
+	/*// POST REQUEST  for Nurse Entry================
 
 	app.post('/newNurse', function(req, res){
 
@@ -260,7 +260,7 @@ module.exports = function(app, passport) {
                        
 
 		res.redirect('/profile');
-	});
+	});*/
 
 		
 

@@ -99,7 +99,7 @@ CREATE TABLE education_qualification(
     year VARCHAR(20) NOT NULL,
     cgpa VARCHAR(20) NOT NULL,
     position VARCHAR(20) NOT NULL,
-    FOREIGN KEY(did) REFERENCES doctor(did) 
+    FOREIGN KEY(did) REFERENCES user(id) 
         ON UPDATE CASCADE
         ON DELETE CASCADE
 );
@@ -137,3 +137,27 @@ insert into experience values(10010, 'Supreme Doctor', STR_TO_DATE('07-03-2013',
 STR_TO_DATE('07-03-2018', '%d-%m-%Y'), 'DMC');
 
 
+
+##Nurse Entity
+
+
+CREATE TABLE nurse(
+    nid INT(6) UNSIGNED NOT NULL PRIMARY KEY,
+    fname VARCHAR(20) NOT NULL,
+    mname VARCHAR(20),
+    lname VARCHAR(20) NOT NULL,
+    bdate DATE NOT NULL,
+    adate DATE NOT NULL,
+    gender VARCHAR(20) NOT NULL,
+    sid INT(6) UNSIGNED NOT NULL,
+    assigned_ward INT(6) UNSIGNED NOT NULL,
+    FOREIGN KEY(nid) REFERENCES user(id) 
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    FOREIGN KEY(sid) REFERENCES nurse(nid) 
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    FOREIGN KEY(assigned_ward) REFERENCES ward(id) 
+        ON UPDATE CASCADE
+        ON DELETE CASCADE    
+);

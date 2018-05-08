@@ -23,15 +23,53 @@
 
   <div class="ui container">
 
-    <form class="ui form segment">
+    <form class="ui form segment" action="/newNurse" method="POST">
     
       <h1>Fill the following form to add new "Nurse" to the system</h1>
 
       <div class="two fields">
 
         <div class="field">
-          <label>Name</label>
-          <input placeholder="Name" name="name" type="text">
+          <label>Username</label>
+          <input placeholder="username" name="username" type="text">
+        </div>
+
+        <div class="field">
+          <label>Password</label>
+          <input placeholder="password" name="password" type="text">
+        </div>      
+
+      </div>
+
+      <div class="three fields">
+
+        <div class="field">
+          <label>First Name</label>
+          <input placeholder="Name" name="fname" type="text">
+        </div>
+
+        <div class="field">
+          <label>Middle Name</label>
+          <input placeholder="Name" name="mname" type="text">
+        </div>
+
+        <div class="field">
+          <label>Last Name</label>
+          <input placeholder="Name" name="lname" type="text">
+        </div>      
+
+      </div>
+
+      <div class="three fields">
+
+        <div class="field">
+          <label>Date of birth</label>
+          <input placeholder="Name" name="bdate" type="date">
+        </div>
+
+        <div class="field">
+          <label>Date of Appointment</label>
+          <input placeholder="Name" name="adate" type="Date">
         </div>
 
         <div class="field">
@@ -45,23 +83,106 @@
 
       </div>
 
-      <div class="three fields">
-
-        <div class="field">
-          <label>Age</label>
-          <input placeholder="Age" name="age" type="text">
-        </div>
-
-        <div class="field">
-          <label>Contact No.</label>
-          <input placeholder="Contact Number" name="contact" type="text">
-        </div>
-
-        <div class="field">
-          <label>Address</label>
-          <input placeholder="Address" name="address" type="text">
-        </div>
-
+      <caption><strong>Educational Qualification</strong> </caption>
+      <div class="field">
+        <table class="ui basic table">
+          <thead>
+            <tr>
+              <th>Degree</th>
+              <th>Board/Institution</th>
+              <th>Year</th>
+              <th>Division/CGPA</th>
+              <th>Position</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <input placeholder="Degree" name="degree1" type="text">
+              </td>
+              <td>
+                <input placeholder="Board/Institution" name="board1" type="text">
+              </td>
+              <td>
+                <input placeholder="Year" name="year1" type="text">
+              </td>
+              <td>
+                <input placeholder="Division/CGPA" name="cgpa1" type="text">
+              </td>
+              <td>
+                <input placeholder="Position" name="position1" type="text">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <input placeholder="Degree" name="degree2" type="text">
+              </td>
+              <td>
+                <input placeholder="Board/Institution" name="board2" type="text">
+              </td>
+              <td>
+                <input placeholder="Year" name="year2" type="text">
+              </td>
+              <td>
+                <input placeholder="Division/CGPA" name="cgpa2" type="text">
+              </td>
+              <td>
+                <input placeholder="Position" name="position2" type="text">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <input placeholder="Degree" name="degree3" type="text">
+              </td>
+              <td>
+                <input placeholder="Board/Institution" name="board3" type="text">
+              </td>
+              <td>
+                <input placeholder="Year" name="year3" type="text">
+              </td>
+              <td>
+                <input placeholder="Division/CGPA" name="cgpa3" type="text">
+              </td>
+              <td>
+                <input placeholder="Position" name="position3" type="text">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <input placeholder="Degree" name="degree4" type="text">
+              </td>
+              <td>
+                <input placeholder="Board/Institution" name="board4" type="text">
+              </td>
+              <td>
+                <input placeholder="Year" name="year4" type="text">
+              </td>
+              <td>
+                <input placeholder="Division/CGPA" name="cgpa4" type="text">
+              </td>
+              <td>
+                <input placeholder="Position" name="position4" type="text">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <input placeholder="Degree" name="degree5" type="text">
+              </td>
+              <td>
+                <input placeholder="Board/Institution" name="board5" type="text">
+              </td>
+              <td>
+                <input placeholder="Year" name="year5" type="text">
+              </td>
+              <td>
+                <input placeholder="Division/CGPA" name="cgpa5" type="text">
+              </td>
+              <td>
+                <input placeholder="Position" name="position5" type="text">
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
       <div class="two fields">
@@ -108,11 +229,11 @@
           <label>I agree to the terms and conditions</label>
         </div>
       </div> -->
-      <div class="ui primary submit button">Submit</div>
+      <button class="ui primary submit button">Submit</button>
       <div class="ui error message"></div>
     </form>
 
-    <div> <a href="index.ejs">Go back</a> </div>
+    <div> <a href="/profile">Go back</a> </div>
     
   </div>
 
