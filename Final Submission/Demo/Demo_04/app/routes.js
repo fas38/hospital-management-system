@@ -63,6 +63,45 @@ module.exports = function(app, passport) {
     	res.render("StaffIndex");
   	});
 
+  	app.post('/create_patient', function(req, res) {
+
+    	var patient = {id: req.body.id,admission_date: req.body.admission_date, patient_name: req.body.patient_name, birth_date: req.body.birth_date,
+    	 gender: req.body.gender, age: req.body.age, contact_no: req.body.contact_no, address: req.body.address};
+    	var user = {username: patient.id, password: req.body.password, user_type: 'Patient'};
+    	con.query("INSERT INTO patient SET ?", patient);
+    	con.query("INSERT INTO pre_user SET ?", user);
+    	res.render("StaffIndex");
+  	});
+
+  	app.post('/report', function(req, res) {
+
+  		var payable_amount = parseInt(req.body.payable_amount);
+     	var report = {id: req.body.id, pathology_report: req.body.pathology_report, radiology_report: req.body.radiology_report, 
+     									                imaging_report: req.body.imaging_report, payable_amount: payable_amount};
+    	con.query("INSERT INTO report SET ?", report);
+    	res.render("StaffIndex");
+  	});
+
+  	app.post('/update_payment', function(req, res) {
+
+  		var paid = parseInt(req.body.paid);
+    	con.query("UPDATE bill SET paid = paid + ? WHERE id = ?",[paid,req.body.id] );
+    	res.render("StaffIndex");
+  	});
+
+  	app.post('/bill_details', function(req,res){
+  		
+  		con.query('select due from bill_due where id = ?',req.body.id,function(err,rows){
+			if(err){
+					console.log(err);
+					return;
+			}
+			console.log(rows[0].due);
+	});	
+
+  		res.redirect('/PatientIndex');
+  	});
+
   	app.post('/delete_user', function(req, res) {
   		var username = req.body.username;
     	con.query("DELETE FROM user WHERE username = ?",username);
@@ -136,6 +175,20 @@ function isLoggedIn(req, res, next) {
 	// if they aren't redirect them to the home page
 	res.redirect('/');
 }
+
+// con.query('select * from bill_due',function(err,rows){
+// 	if(err){
+// 		console.log(err);
+// 		return;
+// 	}
+// 	rows.forEach(function(result){
+// 		console.log(result.id,result.due);
+// 	});
+// });
+
+// con.end(function(){
+// 	console.log("Connection Closed...")
+// });
 
 
 

@@ -23,31 +23,40 @@
 
   <div class="ui container">
 
-    <form class="ui form segment">
+    <form class="ui form segment" action="/create_patient" method="POST">
     
       <h1>Fill the following form to add new "Patient" to the system</h1>
 
       <div class="two fields">
 
         <div class="field">
+          <label>Patient Id</label>
+          <input placeholder="Name" name="id" type="text">
+        </div>
+
+        <div class="field">
+          <label>Patient Password</label>
+          <input placeholder="password" name="password" type="text">
+        </div>
+
+        <div class="field">
           <label>Date Of Admission</label>
-          <input placeholder="admission_date" name="date" type="text">
+          <input placeholder="admission_date" name="admission_date" type="date">
         </div>
 
         <div class="field">
           <label>Name</label>
-          <input placeholder="Name" name="name" type="text">
+          <input placeholder="Name" name="patient_name" type="text">
         </div>
 
         <div class="field">
           <label>Date Of Birth</label>
-          <input placeholder="birth_date" name="date" type="text">
+          <input placeholder="birth_date" name="birth_date" type="date">
         </div>
 
         <div class="field">
           <label>Gender</label>
           <select class="ui dropdown" name="gender">
-            <option value="">Gender</option>
             <option value="male">Male</option>
             <option value="female">Female</option>
           </select>
@@ -64,7 +73,7 @@
 
         <div class="field">
           <label>Contact No.</label>
-          <input placeholder="Contact Number" name="contact" type="text">
+          <input placeholder="Contact Number" name="contact_no" type="text">
         </div>
 
         <div class="field">
@@ -118,11 +127,9 @@
           <label>I agree to the terms and conditions</label>
         </div>
       </div> -->
-      <div class="ui primary submit button">Submit</div>
+      <button class="ui primary submit button">Submit</button>
       <div class="ui error message"></div>
     </form>
-
-    <div> <a href="index.html">Go back</a> </div>
     
   </div>
 

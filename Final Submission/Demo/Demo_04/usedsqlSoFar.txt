@@ -27,6 +27,42 @@ create table nurse(
     
 );
 
+create table patient(
+    id varchar(20) not null,
+    admission_date date not null,
+    patient_name varchar(30) not null,
+    birth_date date not null,
+    gender varchar(10) not null,
+    age varchar(4) not null,
+    contact_no varchar(20) not null,
+    address varchar(100) not null
+    
+);
+
+create table bill(
+    id varchar(20) not null unique,
+    foreign key(id) references patient(id)
+        on delete cascade,
+    total_payable int(40),
+    paid int(20)
+);
+
+create view bill_due as
+select id , total_payable - paid as due
+from bill;
+
+create table report(
+    id varchar(20) not null unique,
+    foreign key(id) references patient(id)
+        on delete cascade,
+    pathology_report varchar(10000),
+    radiology_report varchar(10000),
+    imaging_report varchar(10000),
+    payable_amount int(20)
+);
+
+
+
 DELIMITER $$
 CREATE TRIGGER user_type_check 
     AFTER INSERT ON pre_user
@@ -56,7 +92,31 @@ BEGIN
 END; $$
 DELIMITER ;
 
-INSERT INTO pre_user (username, password, user_type) VALUES('fahim', 'qwe1asd2', 'Staff');
-INSERT INTO pre_user (username, password, user_type) VALUES('shakil', 'asd2zxc3', 'Nurse');
-INSERT INTO pre_user (username, password, user_type) VALUES('ahmed', 'zxc3qwe1', 'Doctor');
-INSERT INTO pre_user (username, password, user_type) VALUES('jhon', 'qwe1asd2', 'Patient');
+DELIMITER $$
+CREATE TRIGGER report_bill 
+    AFTER insert ON report
+    FOR EACH ROW 
+BEGIN
+    update bill
+    set total_payable = total_payable + new.payable_amount
+    where bill.id = new.id;
+END; $$
+DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER patient_bill 
+    AFTER insert ON patient
+    FOR EACH ROW 
+BEGIN
+    insert into bill (id,total_payable,paid) values (new.id,0,0);
+END; $$
+DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER user_delete 
+    AFTER delete ON user
+    FOR EACH ROW 
+BEGIN
+    delete from patient where patient.id = old.username;
+END; $$
+DELIMITER ;

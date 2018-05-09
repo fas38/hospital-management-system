@@ -23,61 +23,31 @@
 
   <div class="ui container">
 
-    <form class="ui form segment">
+    <form class="ui form segment" action="/update_payment" method="POST">
     
-      <h1>Prescription</h1>
+      <h1>Fill the following form to add new "Patient" to the system</h1>
 
       <div class="two fields">
 
         <div class="field">
-          <label>Name of the Patient</label>
-          <input placeholder="Name" name="name" type="text">
+          <label>Patient Id</label>
+          <input placeholder="Id" name="id" type="text">
         </div>
+
+        
 
         <div class="field">
-          <label>Gender</label>
-          <select class="ui dropdown" name="gender">
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-          </select>
+          <label>Money Paid</label>
+          <input placeholder="Amount" name="paid" type="number">
         </div>
 
-      </div>
-
-      <div class="three fields">
-
-        <div class="field">
-          <label>Age</label>
-          <input placeholder="Age" name="age" type="text">
-        </div>
-
-        <div class="field">
-          <label>Contact No.</label>
-          <input placeholder="Contact Number" name="contact" type="text">
-        </div>
-
-        <div class="field">
-          <label>Address</label>
-          <input placeholder="Address" name="address" type="text">
-        </div>
-
-      </div>
-
-      <div class="field">
-        <label>Prescribed Medicines</label>
-        <textarea name="prescription" rows="10" cols="100" placeholder="Write about the prescribed medicines for the patient in here"></textarea>
-      </div>
-
-      <div class="field">
-        <label>Special Note</label>
-        <textarea name="prescription" rows="5" cols="50" placeholder="Write special note here (if any)."></textarea>
       </div>
 
       <!-- <div class="two fields">
 
         <div class="field">
-          <label>Registar ID</label>
-          <input placeholder="Registar ID" name="registar" type="text">
+          <label>Supervisor ID</label>
+          <input placeholder="Supervisor ID" name="supervisor" type="text">
         </div>
 
         <div class="field">
@@ -117,11 +87,9 @@
           <label>I agree to the terms and conditions</label>
         </div>
       </div> -->
-      <div class="ui primary submit button">Submit</div>
+      <button class="ui primary submit button">Submit</button>
       <div class="ui error message"></div>
     </form>
-
-    <div> <a href="index.html">Go back</a> </div>
     
   </div>
 
@@ -133,16 +101,14 @@
   $('.ui.form')
     .form({
       fields: {
-        name         : 'empty',
-        gender       : 'empty',
-        age          : 'empty',
-        contact      : 'empty',
-        address      : 'empty',
-        prescription : 'empty'
-
-        /*registar   : 'empty',
-        ward       : 'empty',
-        speciality : 'empty'*/
+        name       : 'empty',
+        gender     : 'empty',
+        age        : 'empty',
+        contact    : 'empty',
+        address    : 'empty',
+        supervisor : 'empty',
+        ward       : 'empty'
+        /*speciality : 'empty'*/
         /*username : 'empty',
         password : ['minLength[6]', 'empty'],
         speciality   : ['minCount[2]', 'empty'],

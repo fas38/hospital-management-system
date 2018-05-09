@@ -23,54 +23,34 @@
 
   <div class="ui container">
 
-    <form class="ui form segment">
+    <form class="ui form segment" action="/report" method="POST">
     
-      <h1>Prescription</h1>
+      <h1>Report</h1>
 
       <div class="two fields">
 
         <div class="field">
-          <label>Name of the Patient</label>
-          <input placeholder="Name" name="name" type="text">
+          <label>Patient Id</label>
+          <input placeholder="id" name="id" type="text">
         </div>
 
-        <div class="field">
-          <label>Gender</label>
-          <select class="ui dropdown" name="gender">
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-          </select>
-        </div>
-
-      </div>
-
-      <div class="three fields">
-
-        <div class="field">
-          <label>Age</label>
-          <input placeholder="Age" name="age" type="text">
-        </div>
-
-        <div class="field">
-          <label>Contact No.</label>
-          <input placeholder="Contact Number" name="contact" type="text">
-        </div>
-
-        <div class="field">
-          <label>Address</label>
-          <input placeholder="Address" name="address" type="text">
-        </div>
-
+      <div class="field">
+        <label>Pathology Report</label>
+        <input type="text" name="pathology_report" rows="5" cols="50" placeholder="Write Pathology report">
       </div>
 
       <div class="field">
-        <label>Prescribed Medicines</label>
-        <textarea name="prescription" rows="10" cols="100" placeholder="Write about the prescribed medicines for the patient in here"></textarea>
+        <label>Radiology Report</label>
+        <input type="text" name="radiology_report" rows="5" cols="50" placeholder="Write Radi report">
+
+      <div class="field">
+        <label>Imaging Report</label>
+        <input type="text" name="imaging_report" rows="5" cols="50" placeholder="Write Imaging report">
       </div>
 
       <div class="field">
-        <label>Special Note</label>
-        <textarea name="prescription" rows="5" cols="50" placeholder="Write special note here (if any)."></textarea>
+          <label>Payable amout</label>
+          <input placeholder="payable_amount" name="payable_amount" type="number">
       </div>
 
       <!-- <div class="two fields">
@@ -117,12 +97,8 @@
           <label>I agree to the terms and conditions</label>
         </div>
       </div> -->
-      <div class="ui primary submit button">Submit</div>
-      <div class="ui error message"></div>
+      <button class="ui primary submit button" style="margin-top: 10px">Submit</button>
     </form>
-
-    <div> <a href="index.html">Go back</a> </div>
-    
   </div>
 
   
