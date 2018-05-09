@@ -23,95 +23,31 @@
 
   <div class="ui container">
 
-    <form class="ui form segment" action="/create_nurse" method="POST">
+    <form class="ui form segment" action="/newNurse" method="POST">
     
       <h1>Fill the following form to add new "Nurse" to the system</h1>
 
       <div class="two fields">
 
         <div class="field">
-          <label>Name</label>
-          <input placeholder="Name" name="name" type="text">
-        </div>
-
-        <div class="field">
-          <label>Gender</label>
-          <select class="ui dropdown" name="gender">
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-          </select>
-        </div>
-
-      </div>
-
-      <div class="three fields">
-
-        <div class="field">
-          <label>Age</label>
-          <input placeholder="Age" name="age" type="number">
-        </div>
-
-        <div class="field">
-          <label>Contact No.</label>
-          <input placeholder="Contact Number" name="contact_no" type="text">
-        </div>
-
-        <div class="field">
-          <label>Address</label>
-          <input placeholder="Address" name="address" type="text">
-        </div>
-
-      </div>
-
-      <div class="two fields">
-
-        <div class="field">
-          <label>Supervisor ID</label>
-          <input placeholder="Supervisor ID" name="supervisor_id" type="number">
-        </div>
-
-        <div class="field">
-          <label>Assigned Ward</label>
-          <input placeholder="Assigned Ward" name="ward" type="text">
-        </div>
-
-      </div>
-
-      <!-- <div class="two fields">
-        <div class="field">
           <label>Username</label>
-          <input placeholder="Username" name="username" type="text">
+          <input placeholder="username" name="username" type="text">
         </div>
+
         <div class="field">
           <label>Password</label>
-          <input type="password" name="password">
-        </div>
-      </div> -->
+          <input placeholder="password" name="password" type="text">
+        </div>      
 
-      <!-- <div class="field">
-        <label>Speciality</label>
-        <select name="speciality" class="ui dropdown">
-          <option value="">Select Skills</option>
-          <option value="Cardiologists">Cardiologists</option>
-          <option value="Dermatologists">Dermatologists</option>
-          <option value="Emergency_Medicine_Specialists">Emergency Medicine Specialists</option>
-          <option value="Neurologists">Neurologists</option>
-          <option value="Oncologists">Oncologists</option>
-          <option value="Pathologists">Pathologists</option>
-          <option value="Psychiatrists">Psychiatrists</option>
-        </select>
-      </div> -->
-      <!-- <div class="inline field">
-        <div class="ui checkbox">
-          <input type="checkbox" name="terms">
-          <label>I agree to the terms and conditions</label>
-        </div>
-      </div> -->
-      <button class="ui primary submit button">Submit</button>
+      </div>
+
+      
+
+      <button class="ui primary submit button">Next Page</button>
       <div class="ui error message"></div>
     </form>
 
-    <div> <a href="index.ejs">Go back</a> </div>
+    <div> <a href="/profile">Go back</a> </div>
     
   </div>
 

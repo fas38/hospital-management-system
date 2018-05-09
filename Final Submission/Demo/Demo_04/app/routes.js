@@ -1,11 +1,17 @@
 // app/routes.js
+var did;
+var nid;
+var pid;
+var wid;
+var g;
+
 var mysql = require('mysql');
 
-var con = mysql.createConnection({
+var connection = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "12345",
-  database: "sample01"
+  database: "hospital_db"
 });
 
 module.exports = function(app, passport) {
@@ -45,68 +51,6 @@ module.exports = function(app, passport) {
         res.redirect('/');
     });
 
-    app.post('/create_user', function(req, res) {
-
-    	var user = {username: req.body.username,password: req.body.password, user_type: req.body.role};
-    	con.query("INSERT INTO pre_user SET ?", user);
-    	res.render("StaffIndex");
-  	});
-
-  	app.post('/create_nurse', function(req, res) {
-
-  		var age = parseInt(req.body.age);
-  		var supervisor_id = parseInt(req.body.supervisor_id);
-
-    	var nurse = {nurse_name: req.body.name, gender: req.body.gender, age: age, contact_no: req.body.contact_no, address: req.body.address,
-    		supervisor_id: supervisor_id, assigned_ward: req.body.ward};
-    	con.query("INSERT INTO nurse SET ?", nurse);
-    	res.render("StaffIndex");
-  	});
-
-  	app.post('/create_patient', function(req, res) {
-
-    	var patient = {id: req.body.id,admission_date: req.body.admission_date, patient_name: req.body.patient_name, birth_date: req.body.birth_date,
-    	 gender: req.body.gender, age: req.body.age, contact_no: req.body.contact_no, address: req.body.address};
-    	var user = {username: patient.id, password: req.body.password, user_type: 'Patient'};
-    	con.query("INSERT INTO patient SET ?", patient);
-    	con.query("INSERT INTO pre_user SET ?", user);
-    	res.render("StaffIndex");
-  	});
-
-  	app.post('/report', function(req, res) {
-
-  		var payable_amount = parseInt(req.body.payable_amount);
-     	var report = {id: req.body.id, pathology_report: req.body.pathology_report, radiology_report: req.body.radiology_report, 
-     									                imaging_report: req.body.imaging_report, payable_amount: payable_amount};
-    	con.query("INSERT INTO report SET ?", report);
-    	res.render("StaffIndex");
-  	});
-
-  	app.post('/update_payment', function(req, res) {
-
-  		var paid = parseInt(req.body.paid);
-    	con.query("UPDATE bill SET paid = paid + ? WHERE id = ?",[paid,req.body.id] );
-    	res.render("StaffIndex");
-  	});
-
-  	app.post('/bill_details', function(req,res){
-  		
-  		con.query('select due from bill_due where id = ?',req.body.id,function(err,rows){
-			if(err){
-					console.log(err);
-					return;
-			}
-			console.log(rows[0].due);
-	});	
-
-  		res.redirect('/PatientIndex');
-  	});
-
-  	app.post('/delete_user', function(req, res) {
-  		var username = req.body.username;
-    	con.query("DELETE FROM user WHERE username = ?",username);
-    	res.render("StaffIndex");
-  	});
 
 
 	// =====================================
@@ -148,6 +92,367 @@ module.exports = function(app, passport) {
 		res.redirect('/');
 	});
 
+	// =====================================
+	// Forms for User Staff ================
+	// =====================================
+	
+	app.get('/newPatient', function(req, res){
+		res.render('patient_entry_form.ejs');
+	})
+
+	app.get('/newDoctor', function(req, res){
+		res.render('system_entry_form_doctor.ejs');
+	})
+
+	app.get('/newNurse', function(req, res){
+		res.render('system_entry_form_nurse.ejs');
+	})
+	
+	app.get('/newStaff', function(req, res){
+		res.render('system_entry_form_staff.ejs');
+	})
+
+	app.get('/newWard', function(req, res){
+		res.render('ward_info.ejs');
+	})
+
+	app.get('/newMedicine', function(req, res){
+		res.render('system_entry_form_medicine.ejs');
+	})
+
+
+	// POST REQUEST  for Doctor Entry================
+
+	app.post('/newDoctor', function(req, res){
+		var user = {username: req.body.username,password: req.body.password, user_type: "Doctor"};
+		connection.query("INSERT INTO pre_user SET ?", user, function (err,res) {
+      		if (err) throw err;
+      		connection.query("SELECT * FROM user WHERE username = ? ",user.username, function(err, row){
+      			if(err) throw err;
+      			did = row[0].id;
+      		});
+      	});  			
+
+		res.render('system_entry_form_doctor_table.ejs');
+	})
+
+	app.post('/newDoctorProfile', function(req, res){
+		var ddoctor = {did, fname: req.body.fname, mname: req.body.mname, lname: req.body.lname, 
+			bdate: req.body.bdate, adate: req.body.adate, gender: req.body.gender, rid: req.body.registar, 
+			assigned_ward: req.body.ward};
+		
+		
+		connection.query("INSERT INTO doctor SET ?", ddoctor, function (err,res){
+			if (err) throw err;
+			
+		});
+
+		
+		res.render("system_entry_form_doctor_qualification.ejs");
+
+	})
+
+	app.post('/newDoctorQualification', function(req, res){
+		
+		
+
+		var e_qualification1 = {did, degree: req.body.degree1, board: req.body.board1, year: req.body.year1, 
+			cgpa: req.body.cgpa1, position: req.body.position1};	
+		
+		connection.query("INSERT INTO education_qualification SET ?", e_qualification1);	
+
+		var e_qualification2 = {did, degree: req.body.degree2, board: req.body.board2, year: req.body.year2, 
+			cgpa: req.body.cgpa2, position: req.body.position2};
+		
+		connection.query("INSERT INTO education_qualification SET ?", e_qualification2);	
+
+		var e_qualification3 = {did, degree: req.body.degree3, board: req.body.board3, year: req.body.year3, 
+			cgpa: req.body.cgpa3, position: req.body.position3};
+		
+		connection.query("INSERT INTO education_qualification SET ?", e_qualification3); 	
+
+
+		var e_qualification4 = {did, degree: req.body.degree4, board: req.body.board4, year: req.body.year4, 
+			cgpa: req.body.cgpa4, position: req.body.position4};
+		
+		connection.query("INSERT INTO education_qualification SET ?", e_qualification4);
+
+		var e_qualification5 = {did, degree: req.body.degree5, board: req.body.board5, year: req.body.year5, 
+			cgpa: req.body.cgpa5, position: req.body.position5};
+		
+		connection.query("INSERT INTO education_qualification SET ?", e_qualification5);
+
+		res.render('system_entry_form_doctor_experience.ejs');
+		
+			
+	})
+
+	app.post('/newDoctorExperience', function(req, res){
+		
+		var experience1 = {did, title: req.body.title1, dfrom: req.body.from1, dto: req.body.to1, 
+		  organization: req.body.organization1};
+		  console.log(typeof(experience1.dfrom));
+
+		if(!(experience1.dfrom === ''))  
+
+		{connection.query("INSERT INTO experience SET ?", experience1);};
+
+		var experience2 = {did, title: req.body.title2, dfrom: req.body.from2, dto: req.body.to2, 
+		  organization: req.body.organization2};
+		if(!(experience2.dfrom === ''))
+			connection.query("INSERT INTO experience SET ?", experience2);
+
+		var experience3 = {did, title: req.body.title3, dfrom: req.body.from3, dto: req.body.to3, 
+		  organization: req.body.organization3};
+		if(!(experience3.dfrom === ''))
+			connection.query("INSERT INTO experience SET ?", experience3);
+
+		var experience4 = {did, title: req.body.title4, dfrom: req.body.from4, dto: req.body.to4, 
+		  organization: req.body.organization4};
+		if(!(experience4.dfrom === ''))
+			connection.query("INSERT INTO experience SET ?", experience4);
+
+		var experience5 = {did, title: req.body.title5, dfrom: req.body.from5, dto: req.body.to5, 
+		  organization: req.body.organization5};  
+		if(!(experience5.dfrom === ''))
+			connection.query("INSERT INTO experience SET ?", experience5);
+
+		res.redirect('/profile');
+	})
+
+	// POST REQUEST  for Nurse Entry================
+
+	app.post('/newNurse', function(req, res){
+		var user = {username: req.body.username,password: req.body.password, user_type: "Nurse"};
+		connection.query("INSERT INTO pre_user SET ?", user, function (err,res) {
+      		if (err) throw err;
+      		connection.query("SELECT * FROM user WHERE username = ? ",user.username, function(err, row){
+      			if(err) throw err;
+      			nid = row[0].id;
+      		});
+      	});  			
+
+		res.render('system_entry_form_nurse_table.ejs');
+	})
+
+	app.post('/newNurseProfile', function(req, res){
+		var nnurse = {nid, fname: req.body.fname, mname: req.body.mname, lname: req.body.lname, 
+			bdate: req.body.bdate, adate: req.body.adate, gender: req.body.gender, sid: req.body.supervisor, 
+			assigned_ward: req.body.ward};
+		
+		
+		connection.query("INSERT INTO nurse SET ?", nnurse, function (err,res){
+			if (err) throw err;
+			
+		});
+
+		
+		res.render("system_entry_form_nurse_qualification.ejs");
+
+	})
+
+	app.post('/newNurseQualification', function(req, res){
+		
+		did = nid;
+		var e_qualification11 = {did, degree: req.body.degree1, board: req.body.board1, year: req.body.year1, 
+			cgpa: req.body.cgpa1, position: req.body.position1};	
+		
+		connection.query("INSERT INTO education_qualification SET ?", e_qualification11);
+
+
+
+		var e_qualification22 = {did, degree: req.body.degree2, board: req.body.board2, year: req.body.year2, 
+			cgpa: req.body.cgpa2, position: req.body.position2};
+		
+		connection.query("INSERT INTO education_qualification SET ?", e_qualification22);	
+
+		var e_qualification33 = {did, degree: req.body.degree3, board: req.body.board3, year: req.body.year3, 
+			cgpa: req.body.cgpa3, position: req.body.position3};
+		
+		connection.query("INSERT INTO education_qualification SET ?", e_qualification33); 	
+
+
+		var e_qualification44 = {did, degree: req.body.degree4, board: req.body.board4, year: req.body.year4, 
+			cgpa: req.body.cgpa4, position: req.body.position4};
+		
+		connection.query("INSERT INTO education_qualification SET ?", e_qualification44);
+
+		var e_qualification55 = {did, degree: req.body.degree5, board: req.body.board5, year: req.body.year5, 
+			cgpa: req.body.cgpa5, position: req.body.position5};
+		
+		connection.query("INSERT INTO education_qualification SET ?", e_qualification55);
+
+		res.render('system_entry_form_nurse_experience.ejs');
+		
+			
+	})
+
+	app.post('/newNurseExperience', function(req, res){
+		
+		did = nid;
+
+		
+		var experience11 = {did, title: req.body.title1, dfrom: req.body.from1, dto: req.body.to1, 
+		  organization: req.body.organization1};
+
+		if(!(experience11.dfrom === ''))
+			connection.query("INSERT INTO experience SET ?", experience11);
+
+		var experience22 = {did, title: req.body.title2, dfrom: req.body.from2, dto: req.body.to2, 
+		  organization: req.body.organization2};
+		if(!(experience22.dfrom === ''))
+			connection.query("INSERT INTO experience SET ?", experience22);
+
+		var experience33 = {did, title: req.body.title3, dfrom: req.body.from3, dto: req.body.to3, 
+		  organization: req.body.organization3};
+		if(!(experience33.dfrom === ''))
+			connection.query("INSERT INTO experience SET ?", experience33);
+
+		var experience44 = {did, title: req.body.title4, dfrom: req.body.from4, dto: req.body.to4, 
+		  organization: req.body.organization4};
+		if(!(experience44.dfrom === ''))  
+			connection.query("INSERT INTO experience SET ?", experience44);
+
+		var experience55 = {did, title: req.body.title5, dfrom: req.body.from5, dto: req.body.to5, 
+		  organization: req.body.organization5};
+		if(!(experience55.dfrom === ''))    
+			connection.query("INSERT INTO experience SET ?", experience55);
+
+		res.redirect('/profile');
+	})
+
+
+	// POST REQUEST  for Patient Entry======
+
+	app.post('/newPatient', function(req, res){
+		var user = {username: req.body.username,password: req.body.password, user_type: "Patient"};
+		connection.query("INSERT INTO pre_user SET ?", user, function (err,res) {
+      		if (err) throw err;
+      		connection.query("SELECT * FROM user WHERE username = ? ",user.username, function(err, row){
+      			if(err) throw err;
+      			pid = row[0].id;
+      		});
+      	});  			
+
+		res.render('system_entry_form_patient_table.ejs');
+	})
+
+	app.post('/newPatientProfile', function(req, res){
+
+		var ppatient = {pid, fname: req.body.fname, mname: req.body.mname, lname: req.body.lname, 
+			bdate: req.body.bdate, adate: req.body.adate, mblnoOne: req.body.mblnoOne, 
+			mblnoTwo: req.body.mblnoTwo, gender: req.body.gender, streetno: req.body.streetno, 
+			streetname: req.body.streetname, area: req.body.area, thana: req.body.thana, 
+			district: req.body.district, pstreetno: req.body.pstreetno, pstreetname: req.body.pstreetname, 
+			parea: req.body.parea, pthana: req.body.pthana, pdistrict: req.body.pdistrict, job: req.body.job, 
+			deposit: req.body.deposit, admitted_ward: req.body.ward};
+		
+		
+		connection.query("INSERT INTO patient SET ?", ppatient, function (err,res){
+			if (err) throw err;
+			
+		});
+
+		
+		res.redirect('/profile');
+
+	})
+
+
+	// Prescription Entry
+
+	app.post("/newPrescription",function(req,res){
+  		g = req.body.id;
+  		res.render("radio_prescription");
+  	});
+
+  		app.post('/newRadioReport', function(req, res){
+		
+		var sum = 0;
+
+		var a = Number(req.body.a);
+		var b = Number(req.body.b);
+		var c = Number(req.body.c);
+
+		if(!isNaN(a))
+			sum = sum + a;
+
+		if(!isNaN(b))
+			sum = sum + b;
+
+		if(!isNaN(c))
+			sum = sum + c;
+
+		console.log(g);
+		console.log(typeof(g));
+
+		connection.query("UPDATE bill SET total_payable = total_payable + ? WHERE id = ?", [sum,g]);
+
+		
+
+		res.render('image_prescription');
+	})
+
+	app.post('/newImageReport', function(req, res){
+		
+		var sum = 0;
+
+		var a = Number(req.body.a);
+		var b = Number(req.body.b);
+		var c = Number(req.body.c);
+
+		if(!isNaN(a))
+			sum = sum + a;
+
+		if(!isNaN(b))
+			sum = sum + b;
+
+		if(!isNaN(c))
+			sum = sum + c;
+
+		connection.query("UPDATE bill SET total_payable = total_payable + ? WHERE id = ?", [sum,g]);
+
+		res.render('path_prescription');
+	})
+
+	app.post('/newPathReport', function(req, res){
+		
+		var sum = 0;
+
+		var a = Number(req.body.a);
+		var b = Number(req.body.b);
+		var c = Number(req.body.c);
+
+		if(!isNaN(a))
+			sum = sum + a;
+
+		if(!isNaN(b))
+			sum = sum + b;
+
+		if(!isNaN(c))
+			sum = sum + c;
+
+		connection.query("UPDATE bill SET total_payable = total_payable + ? WHERE id = ?", [sum,g]);
+
+		res.redirect('/profile');
+	})
+
+	 app.post('/update_payment', function(req, res) {
+
+  		var paid = parseInt(req.body.paid);
+    	con.query("UPDATE bill SET paid = paid + ? WHERE id = ?",[paid,req.body.id] );
+    	res.render("StaffIndex");
+  	
+  	});
+
+	app.post('/delete_user', function(req, res) {
+  		var id = parseInt(req.body.id);
+    	connection.query("DELETE FROM user WHERE id = ?",id);
+    	res.render("StaffIndex");
+  	});
+
+
+
 	app.get("/:x",function(req,res){
 		console.log("Someone has made a get req at "+String(req.params.x));
 		res.render(req.params.x);
@@ -164,6 +469,11 @@ module.exports = function(app, passport) {
 	});
 
 };
+
+
+
+
+
 
 // route middleware to make sure
 function isLoggedIn(req, res, next) {

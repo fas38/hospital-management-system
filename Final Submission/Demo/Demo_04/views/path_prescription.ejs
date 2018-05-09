@@ -23,26 +23,43 @@
 
   <div class="ui container">
 
-    <form class="ui form segment" action="/newPatient" method="POST">
+    <form class="ui form segment" action="/newPathReport" method="POST">
     
-      <h1>Fill the following form to add new "Patient" to the system</h1>
+      <h1>Select the Pathology Center Tests</h1>
 
-      <div class="two fields">
+      <div class="field">
 
         <div class="field">
-          <label>Username</label>
-          <input placeholder="username" name="username" type="text">
+          <label>Test Type</label>
+          <select class="ui dropdown" name="type">
+            <option value="pathology">Pathology</option>
+          </select>
+        </div>      
+
+      </div>
+
+      <div class="three fields">
+
+        <div class="field">
+          <label>Report A</label>
+          <input name="a" type="checkbox" value="1000">
         </div>
 
         <div class="field">
-          <label>Password</label>
-          <input placeholder="password" name="password" type="text">
+          <label>Report B</label>
+          <input name="a" type="checkbox" value="2000">
+        </div>
+
+        <div class="field">
+          <label>Report C</label>
+          <input name="a" type="checkbox" value="3000">
         </div>      
 
       </div>
 
       
-      <button class="ui primary submit button">Next Page</button>
+
+      <button class="ui primary submit button">Submit</button>
       <div class="ui error message"></div>
     </form>
 
