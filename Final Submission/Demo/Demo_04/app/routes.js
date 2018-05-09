@@ -4,6 +4,7 @@ var nid;
 var pid;
 var wid;
 var g;
+var bill_id;
 
 var mysql = require('mysql');
 
@@ -59,6 +60,8 @@ module.exports = function(app, passport) {
 	// we will want this protected so you have to be logged in to visit
 	// we will use route middleware to verify this (the isLoggedIn function)
 	app.get('/profile', isLoggedIn, function(req, res) {
+
+		bill_id = parseInt(req.user.id);
 
 		if(req.user.user_type == 'Staff'){
 			res.render('StaffIndex.ejs', {
@@ -436,6 +439,20 @@ module.exports = function(app, passport) {
 
 		res.redirect('/profile');
 	})
+
+
+	// Patient Due bill
+
+	app.get('/dueBill', function(req,res){
+  		
+  		connection.query('select due from bill_due where id = ?',bill_id,function(err,rows){
+			if(err){
+					console.log(err);
+					return;
+			}
+			res.render("billDetails",{dueBill: rows[0].due});
+		});	
+	});
 
 	 app.post('/update_payment', function(req, res) {
 
