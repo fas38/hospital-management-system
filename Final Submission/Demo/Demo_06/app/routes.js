@@ -191,23 +191,31 @@ module.exports = function(app, passport) {
 		
 		var experience1 = {did, title: req.body.title1, dfrom: req.body.from1, dto: req.body.to1, 
 		  organization: req.body.organization1};
-		connection.query("INSERT INTO experience SET ?", experience1);
+		  console.log(typeof(experience1.dfrom));
+
+		if(!(experience1.dfrom === ''))  
+
+		{connection.query("INSERT INTO experience SET ?", experience1);};
 
 		var experience2 = {did, title: req.body.title2, dfrom: req.body.from2, dto: req.body.to2, 
 		  organization: req.body.organization2};
-		connection.query("INSERT INTO experience SET ?", experience2);
+		if(!(experience2.dfrom === ''))
+			connection.query("INSERT INTO experience SET ?", experience2);
 
 		var experience3 = {did, title: req.body.title3, dfrom: req.body.from3, dto: req.body.to3, 
 		  organization: req.body.organization3};
-		connection.query("INSERT INTO experience SET ?", experience3);
+		if(!(experience3.dfrom === ''))
+			connection.query("INSERT INTO experience SET ?", experience3);
 
 		var experience4 = {did, title: req.body.title4, dfrom: req.body.from4, dto: req.body.to4, 
 		  organization: req.body.organization4};
-		connection.query("INSERT INTO experience SET ?", experience4);
+		if(!(experience4.dfrom === ''))
+			connection.query("INSERT INTO experience SET ?", experience4);
 
 		var experience5 = {did, title: req.body.title5, dfrom: req.body.from5, dto: req.body.to5, 
 		  organization: req.body.organization5};  
-		connection.query("INSERT INTO experience SET ?", experience5);
+		if(!(experience5.dfrom === ''))
+			connection.query("INSERT INTO experience SET ?", experience5);
 
 		res.redirect('/profile');
 	})
@@ -248,33 +256,36 @@ module.exports = function(app, passport) {
 
 	app.post('/newNurseQualification', function(req, res){
 		
+		did = nid;
+		console.log("Boobies");
+		var e_qualification11 = {did, degree: req.body.degree1, board: req.body.board1, year: req.body.year1, 
+			cgpa: req.body.cgpa1, position: req.body.position1};
+		console.log("vagina");	
 		
+		connection.query("INSERT INTO education_qualification SET ?", e_qualification11);
 
-		var e_qualification11 = {nid, degree: req.body.degree1, board: req.body.board1, year: req.body.year1, 
-			cgpa: req.body.cgpa1, position: req.body.position1};	
-		
-		connection.query("INSERT INTO education_qualification SET ?", e_qualification1);	
 
-		var e_qualification22 = {nid, degree: req.body.degree2, board: req.body.board2, year: req.body.year2, 
+
+		var e_qualification22 = {did, degree: req.body.degree2, board: req.body.board2, year: req.body.year2, 
 			cgpa: req.body.cgpa2, position: req.body.position2};
 		
-		connection.query("INSERT INTO education_qualification SET ?", e_qualification2);	
+		connection.query("INSERT INTO education_qualification SET ?", e_qualification22);	
 
-		var e_qualification33 = {nid, degree: req.body.degree3, board: req.body.board3, year: req.body.year3, 
+		var e_qualification33 = {did, degree: req.body.degree3, board: req.body.board3, year: req.body.year3, 
 			cgpa: req.body.cgpa3, position: req.body.position3};
 		
-		connection.query("INSERT INTO education_qualification SET ?", e_qualification3); 	
+		connection.query("INSERT INTO education_qualification SET ?", e_qualification33); 	
 
 
-		var e_qualification44 = {nid, degree: req.body.degree4, board: req.body.board4, year: req.body.year4, 
+		var e_qualification44 = {did, degree: req.body.degree4, board: req.body.board4, year: req.body.year4, 
 			cgpa: req.body.cgpa4, position: req.body.position4};
 		
-		connection.query("INSERT INTO education_qualification SET ?", e_qualification4);
+		connection.query("INSERT INTO education_qualification SET ?", e_qualification44);
 
-		var e_qualification55 = {nid, degree: req.body.degree5, board: req.body.board5, year: req.body.year5, 
+		var e_qualification55 = {did, degree: req.body.degree5, board: req.body.board5, year: req.body.year5, 
 			cgpa: req.body.cgpa5, position: req.body.position5};
 		
-		connection.query("INSERT INTO education_qualification SET ?", e_qualification5);
+		connection.query("INSERT INTO education_qualification SET ?", e_qualification55);
 
 		res.render('system_entry_form_nurse_experience.ejs');
 		
@@ -283,25 +294,35 @@ module.exports = function(app, passport) {
 
 	app.post('/newNurseExperience', function(req, res){
 		
-		var experience11 = {nid, title: req.body.title1, dfrom: req.body.from1, dto: req.body.to1, 
+		console.log("pussy");
+		did = nid;
+
+		
+		var experience11 = {did, title: req.body.title1, dfrom: req.body.from1, dto: req.body.to1, 
 		  organization: req.body.organization1};
-		connection.query("INSERT INTO experience SET ?", experience1);
 
-		var experience22 = {nid, title: req.body.title2, dfrom: req.body.from2, dto: req.body.to2, 
+		if(!(experience11.dfrom === ''))
+			connection.query("INSERT INTO experience SET ?", experience11);
+
+		var experience22 = {did, title: req.body.title2, dfrom: req.body.from2, dto: req.body.to2, 
 		  organization: req.body.organization2};
-		connection.query("INSERT INTO experience SET ?", experience2);
+		if(!(experience22.dfrom === ''))
+			connection.query("INSERT INTO experience SET ?", experience22);
 
-		var experience33 = {nid, title: req.body.title3, dfrom: req.body.from3, dto: req.body.to3, 
+		var experience33 = {did, title: req.body.title3, dfrom: req.body.from3, dto: req.body.to3, 
 		  organization: req.body.organization3};
-		connection.query("INSERT INTO experience SET ?", experience3);
+		if(!(experience33.dfrom === ''))
+			connection.query("INSERT INTO experience SET ?", experience33);
 
-		var experience44 = {nid, title: req.body.title4, dfrom: req.body.from4, dto: req.body.to4, 
+		var experience44 = {did, title: req.body.title4, dfrom: req.body.from4, dto: req.body.to4, 
 		  organization: req.body.organization4};
-		connection.query("INSERT INTO experience SET ?", experience4);
+		if(!(experience44.dfrom === ''))  
+			connection.query("INSERT INTO experience SET ?", experience44);
 
-		var experience55 = {nid, title: req.body.title5, dfrom: req.body.from5, dto: req.body.to5, 
-		  organization: req.body.organization5};  
-		connection.query("INSERT INTO experience SET ?", experience5);
+		var experience55 = {did, title: req.body.title5, dfrom: req.body.from5, dto: req.body.to5, 
+		  organization: req.body.organization5};
+		if(!(experience55.dfrom === ''))    
+			connection.query("INSERT INTO experience SET ?", experience55);
 
 		res.redirect('/profile');
 	})
