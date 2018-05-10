@@ -1,0 +1,122 @@
+CREATE DATABASE `sample01` /*!40100 DEFAULT CHARACTER SET latin1 */;
+CREATE TABLE user(
+    id INT(6) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(20) NOT NULL,
+    password CHAR(60) NOT NULL,
+    user_type VARCHAR(20) NOT NULL
+);
+
+ALTER TABLE user modify column username varchar(20) not null unique; 
+ALTER TABLE pre_user modify column username varchar(20) not null unique;
+
+CREATE TABLE pre_user(
+    id INT(6) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(20) NOT NULL,
+    password CHAR(60) NOT NULL,
+    user_type VARCHAR(20) NOT NULL
+);
+
+create table nurse(
+    nurse_name varchar(20) not null,
+    gender varchar(10) not null,
+    age int(4) not null,
+    contact_no varchar(20),
+    address varchar(100),
+    supervisor_id int(6) not null,
+    assigned_ward varchar(20) not null
+    
+);
+
+create table patient(
+    id varchar(20) not null,
+    admission_date date not null,
+    patient_name varchar(30) not null,
+    birth_date date not null,
+    gender varchar(10) not null,
+    age varchar(4) not null,
+    contact_no varchar(20) not null,
+    address varchar(100) not null
+    
+);
+
+create table bill(
+    id varchar(20) not null unique,
+    foreign key(id) references patient(id)
+        on delete cascade,
+    total_payable int(40),
+    paid int(20)
+);
+
+create view bill_due as
+select id , total_payable - paid as due
+from bill;
+
+create table report(
+    id varchar(20) not null unique,
+    foreign key(id) references patient(id)
+        on delete cascade,
+    pathology_report varchar(10000),
+    radiology_report varchar(10000),
+    imaging_report varchar(10000),
+    payable_amount int(20)
+);
+
+
+
+DELIMITER $$
+CREATE TRIGGER user_type_check 
+    AFTER INSERT ON pre_user
+    FOR EACH ROW 
+BEGIN
+	IF (NEW.user_type='Staff' OR NEW.user_type='Nurse' OR NEW.user_type='Doctor' OR NEW.user_type='Patient') THEN
+    INSERT INTO user
+   ( username,
+     password,
+     user_type)
+   VALUES
+   ( NEW.username,
+     NEW.password,
+     NEW.user_type );
+     END IF;
+     
+END; $$
+DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER delete_on_pre_user 
+    AFTER DELETE ON user
+    FOR EACH ROW 
+BEGIN
+	DELETE from pre_user 
+    WHERE pre_user.username = old.username;
+END; $$
+DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER report_bill 
+    AFTER insert ON report
+    FOR EACH ROW 
+BEGIN
+    update bill
+    set total_payable = total_payable + new.payable_amount
+    where bill.id = new.id;
+END; $$
+DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER patient_bill 
+    AFTER insert ON patient
+    FOR EACH ROW 
+BEGIN
+    insert into bill (id,total_payable,paid) values (new.id,0,0);
+END; $$
+DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER user_delete 
+    AFTER delete ON user
+    FOR EACH ROW 
+BEGIN
+    delete from patient where patient.id = old.username;
+END; $$
+DELIMITER ;
