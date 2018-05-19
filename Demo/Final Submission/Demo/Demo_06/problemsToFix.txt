@@ -1,5 +1,0 @@
-1) Input to Experience table is causing error and experience table is not storing null inputs.
-
-2) While inputting nurse data, /newNurseQualification root is not found.
-
-3) Ward entry is getting error.
