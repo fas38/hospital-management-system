@@ -525,7 +525,7 @@ module.exports = function(app, passport) {
 	 app.post('/update_payment', function(req, res) {
 
   		var paid = parseInt(req.body.paid);
-    	con.query("UPDATE bill SET paid = paid + ? WHERE id = ?",[paid,req.body.id] );
+    	connection.query("UPDATE bill SET paid = paid + ? WHERE id = ?",[paid,req.body.id] );
     	res.render("StaffIndex");
   	
   	});
